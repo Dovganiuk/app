@@ -1,5 +1,52 @@
 package com.swapi.test;
 
-public class TestPerson {
+import okhttp3.*;
+import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+
+public class TestPerson {
+    @Test
+    void testGetPerson() {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://swapi.dev/api/people/1")
+                .get()
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            String responseBody = response.body().string();
+
+            System.out.println(responseBody);
+
+            assertThat(responseBody).contains("Luke Skywalker");
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Test
+    void testGetPlanet() {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://swapi.dev/api/planets/3")
+                .get()
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
+
