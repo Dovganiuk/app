@@ -1,52 +1,34 @@
 package com.swapi.test;
 
-import okhttp3.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.example.http.HttpClient;
+import org.example.http.HttpResponse;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
+import org_example_model.GetPersonResponse;
+import org_example_model.GetPlanetResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class TestPerson {
+    private final String BASE_URL = "https://swapi.dev/api";
+
+    private final HttpClient httpClient = new HttpClient(BASE_URL);
+
     @Test
     void testGetPerson() {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-
-        Request request = new Request.Builder()
-                .url("https://swapi.dev/api/people/1")
-                .get()
-                .build();
-        try {
-            Response response = client.newCall(request).execute();
-            String responseBody = response.body().string();
-
-            System.out.println(responseBody);
-
-            assertThat(responseBody).contains("Luke Skywalker");
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        HttpResponse response = httpClient.get("/people/1", BASE_URL);
+        GetPersonResponse getPersonResponse = response.json(GetPersonResponse.class);
+        assertThat(getPersonResponse.getName()).isEqualTo("Luke Skywalker");
     }
 
 
-    @Test
-    void testGetPlanet() {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-
-        Request request = new Request.Builder()
-                .url("https://swapi.dev/api/planets/3")
-                .get()
-                .build();
-        try {
-            Response response = client.newCall(request).execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+     @Test
+     void testGetPlanet() {
+         HttpResponse httpResponse = httpClient.get("/planets/3", BASE_URL);
+         GetPlanetResponse getPlanetResponse = httpResponse.json(GetPlanetResponse.class);
+         assertThat(getPlanetResponse.getName()).isEqualTo("Yavin IV");
+      }
 }
 
 
