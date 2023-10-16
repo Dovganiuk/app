@@ -3,7 +3,6 @@ package org.example.http;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.Response;
-import org_example_model.GetPersonResponse;
 
 import java.io.IOException;
 

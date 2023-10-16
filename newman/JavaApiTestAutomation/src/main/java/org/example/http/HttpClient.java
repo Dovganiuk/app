@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class HttpClient {
     private final OkHttpClient client;
-    public HttpClient(String BASE_URL) {
+    public HttpClient() {
         client = new OkHttpClient().newBuilder()
                 .build();
     }
