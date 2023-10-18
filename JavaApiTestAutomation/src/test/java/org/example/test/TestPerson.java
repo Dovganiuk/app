@@ -1,4 +1,4 @@
-package com.swapi.test;
+package org.example.test;
 
 import org.example.http.HttpClient;
 import org.example.http.HttpResponse;
